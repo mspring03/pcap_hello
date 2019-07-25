@@ -22,12 +22,120 @@ void printMACAddress(mac_addr mac)
 void printpacket(const unsigned char *p, uint32_t size)
 {
 	int len = 0;
+	int i = 0;
+	printf("00%d0 : ", i++);
 	while (len < size)
 	{
-		printf("%02x ", *(p++));
-		if (!(++len % 16))
-			printf("\n");
+		printf("%02X ", *(p++));
+		if (((len + 1) % 8) == 0){
+			printf(" ");
+		}
+		if (!(++len % 16) && size / 16 != 0){
+			if(i / 10 == 0)
+				printf("\n00%d0 : ",i++);
+			else if(i / 100 == 0)
+				printf("\n0%d0 : ",i++);
+			else if(i / 1000 == 0)
+				printf("\n%d0 : ",i++);
+
+		}
 	}
 	if (size % 16)
 		printf("\n");
 }
+
+void printpacketask(const unsigned char *p, uint32_t size)
+{
+	int len = 0;
+	int i = 0;
+	printf("00%d0 : ", i++);
+	while (len < size)
+	{
+		printf("%02X ", *(p++));
+		if (((len + 1) % 8) == 0){
+			printf(" ");
+		}
+		if (!(++len % 16) && size / 16 != 0){
+			if(i / 10 == 0){
+				p -= 16;
+				len -= 16;
+				while (len < size)
+				{
+					printf("%c", *p >= 32 && *p <= 126 ? *p : '.' );
+					p++;
+					if (!(++len % 16))
+							break;
+				}
+				// if (size % 16)
+				// printf("\n");
+				printf("\n00%d0 : ",i++);
+			}
+			else if(i / 100 == 0){
+				p -= 16;
+				len -= 16;
+				while (len < size)
+				{
+					printf("%c", *p >= 32 && *p <= 126 ? *p : '.' );
+					if (!(++len % 16))
+							break;
+				}
+				// if (size % 16)
+				// printf("\n");
+				printf("\n0%d0 : ",i++);
+			}
+			else if(i / 1000 == 0){
+				p -= 16;
+				len -= 16;
+				while (len < size)
+				{
+					printf("%c", *p >= 32 && *p <= 126 ? *p : '.' );
+					if (!(++len % 16))
+							break;
+				}
+				// if (size % 16)
+				// printf("\n");
+				printf("\n%d0 : ",i++);
+			}
+		}
+	}	
+			if(len % 16 < 8){
+				printf(" ");
+				for(int j = 0;j < 15 - len % 16;j++){
+					printf("   ");
+				}
+				printf("    ");
+			}
+
+			else if(len % 16 >= 8){
+				for(int j = 0;j < 15 - len % 16;j++){
+					printf("   ");
+				}
+				printf("    ");
+			}
+
+			p -= (len)% 16;
+			int a = (len) % 16;
+			len -= a;
+			for(int  j = 0; j < a;j++)
+				{
+					printf("%c", *p >= 32 && *p <= 126 ? *p : '.' );
+					p++;
+				}
+		
+	if (size % 16)
+		printf("\n");
+}	
+// }
+// void printpacketask(const unsigned char *p, uint32_t size)
+// {
+// 	int len = 0;
+// 	while (len < size)
+// 	{
+// 		printf("%c", p[len] >= 32 && p[len] <= 126 ? p[len] : '.' );
+// 		if (!(++len % 16))
+// 			printf("\n");
+// 	}
+// 	if (size % 16)
+// 		printf("\n");
+// }
+

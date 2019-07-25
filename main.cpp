@@ -58,9 +58,9 @@ int main(int argc, char *argv[])
 				printf("tcp dst port: %d\n", ntohs(tcp->th_dport));
 				if (tcp_size > 0)
 				{
-					printf("===================================================\n");
-					printpacket(packet + packetIndex, tcp_size);
-					printf("===================================================\n");
+					//printf("===================================================\n");
+					///printpacket(packet + packetIndex, tcp_size);
+					//printf("===================================================\n");
 				}
 				printf("\n\n");
 			}
@@ -75,10 +75,43 @@ int main(int argc, char *argv[])
 
 				if (udp_size > 0)
 				{
-					printf("===================================================\n");
-					printpacket(packet + packetIndex, udp_size);
-					printf("===================================================\n");
+					//printf("===================================================\n");
+					//printpacket(packet + packetIndex, udp_size);
+					//printf("===================================================\n");
 				}
+			}
+
+			else if (ip->ip_p == 1)
+			{
+				const icmp_header *icmp = (icmp_header *)(packet + packetIndex);
+				packetIndex += sizeof(icmp_header);
+				uint32_t icmp_size = ntohs(ip -> ip_len) - sizeof(ip_header) - sizeof(icmp_header);
+
+				printf("icmp\n");
+				printf("type: %d\n", icmp -> icmp_type);
+				printf("code: %d\n", icmp -> icmp_code);
+				printf("cheaksum: 0x%x\n", ntohs(icmp -> icmp_checksum));
+				
+				if(icmp -> icmp_type != 3){
+					printf("identifier (BE): %d (0x%x)\n", ntohs(icmp -> icmp_identifier),  ntohs(icmp -> icmp_identifier));
+					printf("identifier (LE): %d (0x%x)\n", (icmp -> icmp_identifier), (icmp -> icmp_identifier));
+
+					printf("sequence number (BE): %d (0x%x)\n", ntohs(icmp -> icmp_seqnum), ntohs(icmp -> icmp_seqnum));
+					printf("sequence number (LE): %d (0x%x)\n", (icmp -> icmp_seqnum), (icmp -> icmp_seqnum));
+				}
+     			
+				printf("icmp_size: %d\n", icmp_size);
+				
+				if (icmp_size > 0)
+				{
+					// printf("=======================================================\n");
+					// printpacket(packet + packetIndex, icmp_size);
+					// printf("=======================================================\n");
+					//printf("=======================================================\n");
+					//printpacketask(packet, header->caplen);
+					//printf("=======================================================\n");
+				}
+
 			}
 		}
 
@@ -103,6 +136,10 @@ int main(int argc, char *argv[])
 			printMACAddress(arp -> ar_tha);
 			printIPAddress(arp -> ar_tip);
 		}
+		printf("=========================================================================\n");
+		printpacketask(packet, header->caplen);
+		printf("=========================================================================\n");
+
 	}
 	printf("\n");
 	pcap_close(handle);
