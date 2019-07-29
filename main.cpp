@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
 			continue;
 		if (res == -1 || res == -2)
 			break;
-
+		int packetIndex = 0;
 		const ether_header *eth = (ether_header *)packet;
-		int packetIndex = sizeof(ether_header);
+		packetIndex += sizeof(ether_header);
 
 		printf("\n%u bytes captured\n", header->caplen);
 
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 			if (ip->ip_p == 6)
 			{
 				const tcp_header *tcp = (tcp_header *)(packet + packetIndex);
-				packetIndex += sizeof(tcp_header);
+				packetIndex += sizeof(tcp_header) + 12; 
 				uint32_t tcp_size = (ntohs(ip->ip_len) - ((ip->ip_hl + tcp->th_off) * 4));
 				printf("tcp src port: %d\n", ntohs(tcp->th_sport));
 				printf("tcp dst port: %d\n", ntohs(tcp->th_dport));
@@ -61,8 +61,12 @@ int main(int argc, char *argv[])
 					//printf("===================================================\n");
 					///printpacket(packet + packetIndex, tcp_size);
 					//printf("===================================================\n");
+					//const http_header *http = (http_header *)(packet + packetIndex);
+					// packetIndex += sizeof(http_header);
+					// printf("%s\n",packet + packetIndex);
+					// printf("%s\n",packet + packetIndex);
+					cheakhttp(packet + packetIndex);
 				}
-				printf("\n\n");
 			}
 			else if (ip->ip_p == 17)
 			{
@@ -77,7 +81,7 @@ int main(int argc, char *argv[])
 				{
 					//printf("===================================================\n");
 					//printpacket(packet + packetIndex, udp_size);
-					//printf("===================================================\n");
+					//printf("==================================================\n");
 				}
 			}
 

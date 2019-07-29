@@ -125,6 +125,29 @@ void printpacketask(const unsigned char *p, uint32_t size)
 	if (size % 16)
 		printf("\n");
 }	
+
+// void cheakhttp(const u_char *data)
+// {
+//     int i,j;
+//     char cheak[7];
+
+//     for(i = 0;i < 7; i++)
+//     {
+//         cheak[i] = data[i];
+//     }
+
+//     for(i = 0;i < 9;i++){
+//         for(j = 0;j < strlen((char*)HTTP_METHOD[i]);j++){
+//             if(strncmp(cheak,(char*)data,strlen((char*)HTTP_METHOD[i])) == 0)
+//             {
+//                 printf("http_method: %s\n",data);
+//             } 
+
+//         }
+//     }
+// }
+
+
 // }
 // void printpacketask(const unsigned char *p, uint32_t size)
 // {
