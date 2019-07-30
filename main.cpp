@@ -18,6 +18,34 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	// while (ture)
+	// {
+	// 	uint8_t buffer[1500];
+	// 	int packetIndex = 0;
+	// 	ether_header eth;
+	// 	eth.type = htons(ETHERTYPE_ARP);
+	// 	mac_addr src;
+
+	// 	eth.src = src;
+
+	// 	mac_addr dest;
+	// 	src.oui[0] = 0xFF;
+	// 	src.oui[1] = 0xFF;
+	// 	src.oui[2] = 0xFF;
+	// 	src.nic[0] = 0xFF;
+	// 	src.nic[1] = 0xFF;
+	// 	src.nic[2] = 0xFF;
+	// 	eth.dest = dest;
+	// 	memcpy(buffer, &eth, sizeof(ether_header));
+	// 	packetIndex += sizeof(ether_header);
+
+	// 	/* ARP -- */
+
+	// 	if(pcap_sendpacket(handle, buffer,  pcaketIndex) != 0) {
+	// 		printf("send Fail.\n");
+	// 	}
+	// }
+
 	while (true)
 	{
 		struct pcap_pkthdr *header;

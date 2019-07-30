@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <pcap.h>
+#include <pcap/pcap.h>
 #include <arpa/inet.h>
 #include "protocol/all.h"
 #include <string.h>
